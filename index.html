@@ -1,1 +1,113 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="X-UA-Compatible" content="ie=edge"><title>Document</title><style>body{background-color:#000}*{margin:0;padding:0}canvas{display:block;border:1px solid #000;position:absolute;top:50%;margin-top:-300px;left:50%;margin-left:-600px}</style></head><body><a href="https://github.com/lxjsoilor/zombie" target="_black" style="color:red">-->源码下载地址</a> <b>----------------------------------</b> <a href="https://lxjsoilor.github.io/3DMine/index.html" target="_black" style="color:red">-->刚接触前端不久做的另一个3D扫雷游戏，做得不好求轻喷0.0</a><canvas id="bgCvs" width="1200" height="600"></canvas><canvas id="bloodCvs" width="1200" height="600"></canvas><canvas id="dieZombieCvs" width="1200" height="600"></canvas><canvas id="roleCvs" width="1200" height="600"></canvas><canvas id="bulletCvs" width="1200" height="600"></canvas><canvas id="zombieCvs" width="1200" height="600"></canvas><canvas id="gamePropCvs" width="1200" height="600"></canvas><canvas id="obstacleCvs" width="1200" height="600"></canvas><canvas id="buterCvs" width="1200" height="600"></canvas><canvas id="gasCvs" width="1200" height="600"></canvas><canvas id="mineCvs" width="1200" height="600"></canvas><canvas id="mineEffectCvs" width="1200" height="600"></canvas><canvas id="pauseGameCvs" width="1200" height="600"></canvas><canvas id="gameScoreCvs" width="1200" height="600"></canvas><canvas id="checkGameCvs" width="1200" height="600"></canvas><canvas id="playGameCvs" width="1200" height="600"></canvas><canvas id="gameOverCvs" width="1200" height="600"></canvas><canvas id="gameloadingCvs" width="1200" height="600"></canvas></body><script src="./js/lib.js"></script></html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: #000;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        canvas {
+            display: block;
+            /*margin: auto auto;*/
+            border: 1px solid #000;
+            position: absolute;
+            /*top: 0;*/
+            top: 50%;
+            margin-top: -300px;
+            left: 50%;
+            margin-left: -600px;
+            /* border: none; */
+        }
+    </style>
+
+</head>
+
+<body>
+    <p><a href="https://github.com/lxjsoilor/zombie" target="_black" style="color:red">源码下载地址</a></p>
+    <!--背景图层-->
+    <canvas id="bgCvs" width="1200" height="600"></canvas>
+    <!--血液图层-->
+    <canvas id="bloodCvs" width="1200" height="600"></canvas>
+    <!--僵尸尸体图层-->
+    <canvas id="dieZombieCvs" width="1200" height="600"></canvas>
+    <!-- 主角图层 -->
+    <canvas id="roleCvs" width="1200" height="600"></canvas>
+    <!-- 子弹图层 -->
+    <canvas id="bulletCvs" width="1200" height="600"></canvas>
+    <!-- 僵尸图层 -->
+    <canvas id="zombieCvs" width="1200" height="600"></canvas>
+    <!-- 游戏随机道具图层 -->
+    <canvas id="gamePropCvs" width="1200" height="600"></canvas>
+    <!--障碍物图层-->
+    <canvas id="obstacleCvs" width="1200" height="600"></canvas>
+    <!--主角撞击僵尸辅助图层-->
+    <canvas id="buterCvs" width="1200" height="600"></canvas>
+    <!--汽油炸弹图层-->
+    <canvas id="gasCvs" width="1200" height="600"></canvas>
+
+
+    <!-- 地雷图层 -->
+    <canvas id="mineCvs" width="1200" height="600"></canvas>
+    <!-- 地雷特效辅助图层 -->
+    <canvas id="mineEffectCvs" width="1200" height="600"></canvas>
+
+    <!--游戏暂停图层-->
+    <canvas id="pauseGameCvs" width="1200" height="600"></canvas>
+    <!--游戏参数提示图层-->
+    <canvas id="gameScoreCvs" width="1200" height="600"></canvas>
+    <!--游戏选择界面-->
+    <canvas id="checkGameCvs" width="1200" height="600"></canvas>
+    <!--游戏开始图层-->
+    <canvas id="playGameCvs" width="1200" height="600"></canvas>
+
+
+    <!--游戏结束图层-->
+    <canvas id="gameOverCvs" width="1200" height="600"></canvas>
+    <!-- 游戏加载图层 -->
+    <canvas id="gameloadingCvs" width="1200" height="600"></canvas>
+
+
+</body>
+
+<script src="./js/common/config.js"></script>
+<script src="./js/common/util.js"></script>
+<script src="./js/common/getCtx.js"></script>
+<script src="./js/common/keyCtroller.js"></script>
+<script src="./js/common/loadImg.js"></script>
+<script src="./js/common/loadAduio.js"></script>
+<script src="./js/common/createRole.js"></script>
+<script src="./js/component/bg.js"></script>
+<script src="./js/component/gameScore.js"></script>
+<script src="./js/scene/loadGame.js"></script>
+<script src="./js/scene/playGame.js"></script>
+<script src="./js/scene/checkGame.js"></script>
+<script src="./js/scene/pauseGame.js"></script>
+<script src="./js/scene/gameOver.js"></script>
+<script src="./js/role/obstacle.js"></script>
+<script src="./js/role/role.js"></script>
+<script src="./js/role/bullet.js"></script>
+<script src="./js/role/zombie.js"></script>
+<script src="./js/role/gas.js"></script>
+<script src="./js/role/mine.js"></script>
+<script src="./js/role/prop.js"></script>
+<script src="./js/sailorGame.js"></script>
+<script src="./js/main.js"></script>
+
+
+<!-- <script src="./js/lib.js"></script> -->
+
+
+
+
+
+</html>
