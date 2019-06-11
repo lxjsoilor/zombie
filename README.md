@@ -20,15 +20,15 @@
 
 ### 部分游戏截图：
 * 游戏原型的设计文件<br/>
-![game](./linxblog/img/game_psd.jpg)
+![game](./img/game_psd.jpg)
 * 游戏主角怪物精灵表以及场景<br/>
-![game](./linxblog/img/rolezombie.jpg)
+![game](./img/rolezombie.jpg)
 * 加载页面
-![game](./linxblog/img/loading.jpg)
+![game](./img/loading.jpg)
 * 关卡选择(可以选择单人或者双人游戏)
-![game](./linxblog/img/guanqia.png)
+![game](./img/guanqia.png)
 * 部分场景
-![game](./linxblog/img/canjin.png)
+![game](./img/canjin.png)
 
 
 >整个程序实现了基本的游戏引擎，碰撞检测并且基于canvas绘制。<br/>
@@ -42,7 +42,7 @@
     * gulpfile.js 用于打包压缩的简单工具gulpfile.js
     * js文件夹比较复杂，因为模块化开发，很多功能都抽象成对象，存放着近20个js文件。简单介绍下：
         <br/>
-        ![game](./linxblog/img/游戏源代码.jpg)
+        ![game](./img/游戏源代码.jpg)
 
 * 游戏实现原理和游戏循环的实现
     * 我们都看过动画，我觉得游戏就是认为的操作着动画的播放。比如最简单的轮播图。所以我们的游戏引擎就是动画加上一堆的鼠标事件，键盘事件来告诉动画该怎么播放。原理就这么简单。
@@ -220,9 +220,9 @@
     <br/>
     游戏的主要模块包括：人物，敌人，障碍物，汽油桶，道具，爆炸，子弹等。每个模块封装成独立的对象，但同时需要能进行相互的影响
     * 游戏主角对象
-        ![game](./linxblog/img/role.png)
+        ![game](./img/role.png)
     * 僵尸对象封装
-        ![game](./linxblog/img/zombie.png)
+        ![game](./img/zombie.png)
     > 这里只展示重要模块，更多模块可以查看源码。。。
 
-    ## 于是，就有满屏的僵尸追着你打了，你便可以召唤你的英雄去奔跑和射击了。。。
+    ## 于是，就有满屏的僵尸追着你打了，你遍可以召唤你的英雄去奔跑和射击了。。。
