@@ -1,3 +1,14 @@
+# zombie
+## 点击进入游戏：https://lxjsoilor.github.io/zombie/index.html
+<img src="https://raw.githubusercontent.com/lxjsoilor/zombie/master/images/play_view.png"/> <br/>
+* 游戏绘制：基于原生H5 canvas绘制。
+* 碰撞检测：人物、怪物、子弹、道具拾取的碰撞基于canvas内部实现的isPointInPath()实现。
+* 游戏引擎：自己编写的简易游戏引擎，实现了游戏循环、暂停、动画、行为、声音与图片预加载、向量与碰撞检测系统。
+* 游戏仅支持pc端
+* 玩的开心~
+
+
+
 # canvas 和 游戏开发
 > 之前有段时间，学习了canvas。发现这个H5的新标签还是很有意思的。canvas是HTML5新增的组件，它就像一块幕布，可以用JavaScript在上面绘制各种图表、动画、游戏等。</br>
 去年微信小游戏很火，有时自己也想去学下开发游戏的知识，游戏的开发离不开游戏引擎，比如比较火的有egret和cocos creator。但是我毕竟不是专业的游戏开发，游戏引擎就不用了，就单纯使用原生js加html5的canvas来搞一搞游戏。<br/>
