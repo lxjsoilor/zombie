@@ -1,18 +1,8 @@
-# zombie
-## 点击进入游戏：https://lxjsoilor.github.io/zombie/index.html
-<img src="https://raw.githubusercontent.com/lxjsoilor/zombie/master/images/play_view.png"/> <br/>
-* 游戏绘制：基于原生H5 canvas绘制。
-* 碰撞检测：人物、怪物、子弹、道具拾取的碰撞基于canvas内部实现的isPointInPath()实现。
-* 游戏引擎：自己编写的简易游戏引擎，实现了游戏循环、暂停、动画、行为、声音与图片预加载、向量与碰撞检测系统。
-* 游戏仅支持pc端
-* 玩的开心~
-
-
-# canvas 和 原生js游戏开发
+# canvas 和 游戏开发
 > 之前有段时间，学习了canvas。发现这个H5的新标签还是很有意思的。canvas是HTML5新增的组件，它就像一块幕布，可以用JavaScript在上面绘制各种图表、动画、游戏等。</br>
 去年微信小游戏很火，有时自己也想去学下开发游戏的知识，游戏的开发离不开游戏引擎，比如比较火的有egret和cocos creator。但是我毕竟不是专业的游戏开发，游戏引擎就不用了，就单纯使用原生js加html5的canvas来搞一搞游戏。<br/>
 
->于是花了一段时间开始开发，从搜集素材，UI原型制作，场景合成，游戏主角，怪物精灵表制作，到收集音乐音效。开始开发到最终完成：
+>于是花了一段时间断断续续开始开发，从搜集素材（花瓣网），UI原型制作，PS场景合成，游戏主角，怪物精灵表制作，到收集音乐音效。开始开发到最终完成：
 
 * 作品地址：https://lxjsoilor.github.io/zombie/index.html
 * 源码地址：https://github.com/lxjsoilor/zombie
@@ -31,7 +21,29 @@
 ![game](./img/canjin.png)
 
 
->整个程序实现了基本的游戏引擎，碰撞检测并且基于canvas绘制。<br/>
+
+## 设计部分
+<hr/>
+* 人物的设计最复杂，包括太多的细节，行走姿势，行走方向，死亡姿势，死亡方向等等。毕竟不是专业的游戏UI设计师，也不会制作骨骼动画，所以这部分并非原创，而是参考了非常有名的游戏网站4399的《丧尸危机》人物原型。并通过Photoshop制作成一张张的精灵表：
+
+![game](./img/pretend.png)
+![game](./img/role2.png)
+![game](./img/zombie2.png)
+
+动画就是通过切换显示每张精灵表的坐标和显示区域形成的，用Photoshop的时间轴模拟下：
+![game](./img/zombie.gif)
+然后我们就大概知道精灵表用来做啥的了。后面我们就要用代码实现这样的动画了。
+
+* 场景的合成和设计，素材都是花瓣网找的，还有障碍物的设计，摆放的坐标我们需要记住，因为后面代码部分要做碰撞检测。最后放上我独一无二“水印”，比如：
+![game](./img/suiyin.png)
+![game](./img/suiyin2.png)
+
+* 最后是声音素材的收集，百度：游戏声音素材。然后慢慢挑选。。。。
+
+## 代码部分
+<hr/>
+
+>整个程序实现了基本的游戏引擎，碰撞检测和追踪算法并且基于canvas绘制。<br/>
 接下来见解围绕源码进行，有需要的同学可以下载源码瞧一瞧。
 
 * 文件结构
@@ -158,7 +170,100 @@
     <br/>
     https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial
 
-        
+
+* 动画<br/>
+    有了上面canvas最基础的方法，我们就可以实现很简单的图形了，接下来就要实现动画效果了。
+    canvas动画就是一个不停 绘制-清除-绘制-清除的过程。所以每次绘制前都需要clearRect，也就是类似橡皮擦一样，清除指定画布的绘图。
+    * 绘制： 绘制的方法上面已经提到了就是各种几何图形，多边形，贴图组成复杂的图形界面。
+    * 清除：使用clearRect()方法清除指定区域。
+    * 重复绘制：最简单的一个方法就是开一个计时器(setInterval)，定时的去绘制-擦除-绘制-擦除。。。。。就可以实现简单的动画了。或者使用方法：requestAnimationFrame()，递归的去执行重新绘制的操作，并且可以自适应浏览器的刷新的帧数。
+    简单的demo如下：
+    ```
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style type="text/css">
+    #canvas{
+        border:1px solid #ccc;
+    }   
+    </style>
+    </head>
+    <body>
+    <canvas id="canvas" width='800' height='500'>你的浏览器不支持canvas，请跟换其他浏览器试一试</canvas>
+    </body>
+    <script type="text/javascript">
+    window.onload=function(){
+        var canvas=document.getElementById('canvas'),
+            context=canvas.getContext('2d'),
+            iWidth = canvas.width,
+            iHeight = canvas.height,
+            length = 40,//表示矩形（这里画正方形）边长，或者圆半径
+            speed = -5;
+
+        context.fillStyle='red';
+        context.beginPath();
+        context.fillRect((iWidth-length), 0, length, length);//绘制矩形
+        context.arc((iWidth-length),(iHeight/2),length,0,2*Math.PI,true);//圆
+        context.closePath();
+        context.fill();
+
+        var startPoint = iWidth-length;
+        setInterval(function(){
+            startPoint+=speed;
+            if(startPoint<=(-1*length)){
+                startPoint=iWidth-length
+            }
+            run(context,iWidth,iHeight,length,startPoint);
+        }, 30);
+    };
+
+    function run(cxt,width,height,length,point){
+        cxt.clearRect(0,0,width,height);
+        cxt.beginPath();
+        cxt.fillRect(point, 0, length, length);
+        cxt.arc(point,(height/2),length,0,2*Math.PI,true);
+        cxt.closePath();
+        cxt.fill();
+    }
+    </script>
+    </html>
+    ```
+
+* 碰撞检测<br/>
+    在前面的我们介绍了动画，这些动画效果都相对基础。但是通过这些基础的动画形式和概念，你可以设计出更复杂的动画。接下来将介绍在动画中相对来说比较难的物理概念——碰撞检测，这个概念在理解上有感觉并不难，而是其实现的过程，以及实现的方式上，比较考验人的脑洞。
+    * 碰撞检测的方法：
+        - 方法一：判断物体与物体之间是否有重叠，这里使用物体的外接矩形边界来确定，当物体外接边距有重叠，物体产生碰撞效果。
+        ```
+            // 参考代码-以两个矩形为例
+            function intersects(rectA, rectB){  
+                return !(rectA.x + rectA.width < rectB.x ||  
+                    rectB.x + rectB.width < rectA.x ||  
+                    rectA.y + rectA.height < rectB.y ||  
+                    rectB.y + rectB.height < rectA.y);  
+            }
+        ```
+        - 方法二：判断物体与物体之间的距离，当距离小于某个值时，满足碰撞条件，物体产生碰撞效果。
+        ```
+            // 参考代码-以两个圆为例
+            var dx = ballB.x - ballA.x,  
+            var dy = ballB.y - ballA.y,  
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            // dist即两个圆的距离
+        ```
+        - 方法三：判断物体范围内是否和外界的某一点重叠，重叠产生碰撞效果。（canvas的isPointInPath可以实现检测）。
+        ![game](./img/sqrt.jpg)
+    
+    * 根据以上碰撞检测的方法，实现了子弹和僵尸，子弹，障碍物，主角之间两两之间的碰撞效果。
+
+* 追踪算法<br/>
+    原理也是挺简单的，假设一个坐标系中，b代表僵尸位置向量,a代表主角位置向量。做向量减法a-b便得到了向量c，将c的起点置于僵尸的位置上,就得到了一条指向主角的向量c。在游戏中，僵尸除非死亡，每一帧都在运动的，所以我们只需要在每一帧判断向量c的夹角（方向），然后改变僵尸运动方向即可。
+    ![game](./img/asin.png)
+    <br/>
+    最后因为是双人游戏，两个主角，只需要判断谁近追踪谁即可。。。
+
+
 
 * 游戏资源加载<br/>
     程序的资源主要有代码，图像和音效等，代码体积很小。加载速度感觉不出来，但是图像和音效体积比较大，需要预加载并给用户展示进度条。
@@ -214,6 +319,7 @@
     ```
 
 
+* 
 
 
 * 游戏主要模块
@@ -225,4 +331,6 @@
         ![game](./img/zombie.png)
     > 这里只展示重要模块，更多模块可以查看源码。。。
 
-    ## 于是，就有满屏的僵尸追着你打了，你遍可以召唤你的英雄去奔跑和射击了。。。
+    ## 以上只是一个简单的开发过程介绍，实际做完代码还是挺多的。然后性可能有点差。。。
+
+# 于是，就有满屏的僵尸追着你打了，你遍可以召唤你的英雄去奔跑和射击了。。。
